@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from seminario import views
+from seminario import api_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,5 +31,4 @@ urlpatterns = [
     path("instituciones/editar/<int:id>/",views.editar_institucion,name="editar_institucion"),
     path("instituciones/eliminar/<int:id>/",views.eliminar_institucion,name="eliminar_institucion"),
     path("api/",include("seminario.api_urls")),
-    path('seminario/',include('seminario.urls')),
 ]

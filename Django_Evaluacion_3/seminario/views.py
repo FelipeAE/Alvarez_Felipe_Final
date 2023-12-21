@@ -33,11 +33,14 @@ def editar_inscrito(request, id):
     return render(request, 'agregar_inscrito.html', {'form': form})
 
 def eliminar_inscrito(request, id):
-    inscrito = Inscrito.objects.get(id=id)
     if request.method == 'POST':
+        inscrito = Inscrito.objects.get(id=id)
         inscrito.delete()
         return redirect('lista_inscritos')
-    return render(request, 'eliminar_inscrito.html', {'inscrito': inscrito})
+    
+    else:
+        return redirect('lista_inscritos')
+    
 
 #Metodos CRUD para Instituciones
 
@@ -67,8 +70,10 @@ def editar_institucion(request, id):
     return render(request, 'agregar_institucion.html', {'form': form})
 
 def eliminar_institucion(request, id):
-    institucion = Institucion.objects.get(id=id)
     if request.method == 'POST':
+        institucion = Institucion.objects.get(id=id)
         institucion.delete()
         return redirect('lista_instituciones')
-    return render(request, 'eliminar_institucion.html', {'institucion': institucion})
+    
+    else:
+        return redirect('lista_instituciones')
