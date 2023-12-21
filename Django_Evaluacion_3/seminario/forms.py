@@ -5,11 +5,12 @@ from django.core import validators
 class InscritoForm(forms.ModelForm):
     class Meta:
         model = Inscrito
-        fields = ['nombre', 'telefono',  'institucion', 'estado', 'observacion'] #'fecha_inscripcion',
+        fields = ['nombre', 'telefono', 'fecha_inscripcion', 'hora_inscripcion', 'institucion', 'estado', 'observacion'] 
         labels = {
             'nombre': 'Nombre',
             'telefono': 'Teléfono',
             'fecha_inscripcion': 'Fecha de Inscripción',
+            'hora_inscripcion': 'Hora de Inscripción',
             'institucion': 'Institución',
             'estado': 'Estado',
             'observacion': 'Observación',
@@ -19,7 +20,8 @@ class InscritoForm(forms.ModelForm):
     
     nombre = forms.CharField(validators=[validators.MinLengthValidator(3, "El nombre debe tener un minimo de 3 caracteres"), validators.MaxLengthValidator(100, "El nombre debe tener un maximo de 100 caracteres")], widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Ingrese su nombre'}))
     telefono = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Ingrese su teléfono'} ))
-    # fecha_inscripcion = forms.DateTimeField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Ingrese la fecha de inscripción', 'type':'date' }))
+    fecha_inscripcion = forms.DateField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Ingrese la fecha de inscripción', 'type':'date' }))
+    hora_inscripcion = forms.TimeField(widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Ingrese la hora de inscripción', 'type':'time' }))
     institucion = forms.ModelChoiceField(queryset=Institucion.objects.all(), widget=forms.Select(attrs={'class':'form-select'}))
     estado = forms.ChoiceField(choices=Estado, widget=forms.Select(attrs={'class':'form-select'}))
     observacion = forms.CharField(widget=forms.Textarea(attrs={'class':'form-control', 'placeholder':'Ingrese su observación', 'rows':'3'}))
@@ -30,11 +32,11 @@ class InscritoForm(forms.ModelForm):
             raise forms.ValidationError('El teléfono debe empezar con 9 y solo debe contener números')
         return telefono
     
-    # def clean_fecha_inscripcion(self):
-    #     fecha_inscripcion = self.cleaned_data['fecha_inscripcion']
-    #     if fecha_inscripcion.year < 2020:
-    #         raise forms.ValidationError('El año de la fecha de inscripción debe ser mayor o igual a 2020')
-    #     return fecha_inscripcion
+    def clean_fecha_inscripcion(self):
+        fecha_inscripcion = self.cleaned_data['fecha_inscripcion']
+        if fecha_inscripcion.year < 2020:
+            raise forms.ValidationError('El año de la fecha de inscripción debe ser mayor o igual a 2020')
+        return fecha_inscripcion
     
     def clean_nombre(self):
         nombre = self.cleaned_data['nombre']
