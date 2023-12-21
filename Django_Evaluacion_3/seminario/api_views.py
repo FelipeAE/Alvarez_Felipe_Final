@@ -12,7 +12,7 @@ def datos_estudiante(request):
     data={
         'nombre':'Felipe Alvarez',
         'rut':'19.478.868-1',
-        'seccion':'Programación Back End (IEI-171-N4)'
+        'seccion':'Programacion Back End (IEI-171-N4)'
     }
     return JsonResponse(data)
 
